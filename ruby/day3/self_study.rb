@@ -27,8 +27,8 @@ module ActsAsCsv
     end
 
     def each
-      csv_contents.each_index do |row|
-        yield CsvRow.new headers, csv_contents[row]
+      csv_contents.each do |row|
+        yield CsvRow.new headers, row
       end
     end
   end
