@@ -27,8 +27,8 @@ module ActsAsCsv
     end
 
     def each
-      csv_contents.each_index do |row|
-        yield CsvRow.new headers, csv_contents[row]
+      csv_contents.each do |row|
+        yield CsvRow.new headers, row
       end
     end
   end
@@ -40,11 +40,19 @@ module ActsAsCsv
     end
 
     def method_missing name, *args
-      name = name.to_s
-      if @headers.include? name
-        index = @headers.index name
-        @contents[index]
-      end
+      if @headers.include? name.to_s
+        index = @headers.index name.to_s
+        puts "dynamically creating methods"
+        @headers.each do |header|
+          self.class.send(:define_method, header) do
+            index = @headers.index header
+            @contents[index]
+          end
+        end
+        send(name)
+      else
+        super
+      end   
     end
   end
 end
