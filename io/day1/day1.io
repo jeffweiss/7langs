@@ -1,3 +1,4 @@
+#! /usr/bin/env io
 Vehicle := Object clone
 Vehicle description := "Something to take you places"
 Vehicle description = "Something to take you far away"
